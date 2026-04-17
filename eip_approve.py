@@ -140,17 +140,18 @@ async def approve_eip_individual(browser: Browser, doc_type: str) -> int:
         approve_radio = await new_tab.query_selector(
             "input[type='radio'][value='APPROVE'], input[type='radio'][value='Approve']"
         )
-        if approve_radio:
+        if approve_radio and not new_tab.is_closed():
             await approve_radio.click()
             await new_tab.wait_for_timeout(300)
 
         # 點送核 Submit
-        submit_btn = await new_tab.query_selector(
-            "input[value*='Submit'], input[value*='送核'], button:text('送核'), button:text('核准')"
-        )
-        if submit_btn:
-            await submit_btn.click()
-            await new_tab.wait_for_timeout(1000)
+        if not new_tab.is_closed():
+            submit_btn = await new_tab.query_selector(
+                "input[value*='Submit'], input[value*='送核'], button:text('送核'), button:text('核准')"
+            )
+            if submit_btn:
+                await submit_btn.click()
+                await new_tab.wait_for_timeout(500)
 
         if not new_tab.is_closed():
             await new_tab.close()
@@ -199,19 +200,21 @@ async def approve_part_recognition(browser: Browser) -> int:
         await new_tab.wait_for_load_state("networkidle")
 
         # 選「同意承認判定結果」radio
-        agree_radio = await new_tab.query_selector(
-            "input[type='radio'][value*='同意'], input[type='radio'][value*='agree']"
-        )
-        if agree_radio:
-            await agree_radio.click()
-            await new_tab.wait_for_timeout(300)
+        if not new_tab.is_closed():
+            agree_radio = await new_tab.query_selector(
+                "input[type='radio'][value*='同意'], input[type='radio'][value*='agree']"
+            )
+            if agree_radio:
+                await agree_radio.click()
+                await new_tab.wait_for_timeout(300)
 
-        submit_btn = await new_tab.query_selector(
-            "input[value*='Submit'], input[value*='送核'], button:text('送核')"
-        )
-        if submit_btn:
-            await submit_btn.click()
-            await new_tab.wait_for_timeout(1000)
+        if not new_tab.is_closed():
+            submit_btn = await new_tab.query_selector(
+                "input[value*='Submit'], input[value*='送核'], button:text('送核')"
+            )
+            if submit_btn:
+                await submit_btn.click()
+                await new_tab.wait_for_timeout(500)
 
         if not new_tab.is_closed():
             await new_tab.close()
@@ -260,16 +263,18 @@ async def approve_business_trip(browser: Browser) -> int:
         await new_tab.wait_for_load_state("networkidle")
 
         # 選 APPROVE radio button
-        approve_radio = await new_tab.query_selector("input[type='radio']")
-        if approve_radio:
-            await approve_radio.click()
-            await new_tab.wait_for_timeout(300)
+        if not new_tab.is_closed():
+            approve_radio = await new_tab.query_selector("input[type='radio']")
+            if approve_radio:
+                await approve_radio.click()
+                await new_tab.wait_for_timeout(300)
 
         # 點送核 Submit
-        submit_btn = await new_tab.query_selector("button:text('送核 Submit'), button:text('送核')")
-        if submit_btn:
-            await submit_btn.click()
-            await new_tab.wait_for_timeout(1000)
+        if not new_tab.is_closed():
+            submit_btn = await new_tab.query_selector("button:text('送核 Submit'), button:text('送核')")
+            if submit_btn:
+                await submit_btn.click()
+                await new_tab.wait_for_timeout(500)
 
         if not new_tab.is_closed():
             await new_tab.close()
